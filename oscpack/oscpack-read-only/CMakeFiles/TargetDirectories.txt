@@ -1,0 +1,9 @@
+H:/MidiHackDay/Examples/oscpack/oscpack-read-only/CMakeFiles/oscpack.dir
+H:/MidiHackDay/Examples/oscpack/oscpack-read-only/CMakeFiles/SimpleReceive.dir
+H:/MidiHackDay/Examples/oscpack/oscpack-read-only/CMakeFiles/ALL_BUILD.dir
+H:/MidiHackDay/Examples/oscpack/oscpack-read-only/CMakeFiles/OscSendTests.dir
+H:/MidiHackDay/Examples/oscpack/oscpack-read-only/CMakeFiles/OscReceiveTest.dir
+H:/MidiHackDay/Examples/oscpack/oscpack-read-only/CMakeFiles/ZERO_CHECK.dir
+H:/MidiHackDay/Examples/oscpack/oscpack-read-only/CMakeFiles/SimpleSend.dir
+H:/MidiHackDay/Examples/oscpack/oscpack-read-only/CMakeFiles/OscDump.dir
+H:/MidiHackDay/Examples/oscpack/oscpack-read-only/CMakeFiles/OscUnitTests.dir

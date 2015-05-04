@@ -1,0 +1,10 @@
+﻿Build started 5/4/2015 1:55:44 PM.
+     1>Project "h:\MidiHackDay\Examples\oscpack\oscpack-read-only\ALL_BUILD.vcxproj" on node 2 (Build target(s)).
+     1>CustomBuild:
+         Building Custom Rule H:/MidiHackDay/Examples/oscpack/oscpack-read-only/CMakeLists.txt
+         CMake does not need to re-run because H:\MidiHackDay\Examples\oscpack\oscpack-read-only\CMakeFiles\generate.stamp is up-to-date.
+     1>Done Building Project "h:\MidiHackDay\Examples\oscpack\oscpack-read-only\ALL_BUILD.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.92
