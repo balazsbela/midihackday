@@ -1,0 +1,7 @@
+PluginEditor.cpp
+PluginEditor.h
+PluginProcessor.cpp
+PluginProcessor.h
+ReceiveOSC.cpp
+ReceiveOSC.h
+../Builds/Linux/Makefile
