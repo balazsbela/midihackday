@@ -52,6 +52,30 @@
         <MODULEPATH id="juce_audio_plugin_client" path="../JUCE/modules"/>
       </MODULEPATHS>
     </VS2013>
+    <LINUX_MAKE targetFolder="Builds/Linux" externalLibraries="~/devel/MidiHackDay/midihackday/oscpack/liboscpack.a">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/&#10;~/devel/MidiHackDay/midihackday/oscpack"
+                       isDebug="1" optimisation="1" targetName="OSCMidiModulator" headerPath="~/devel/MidiHackDay/midihackday/oscpack"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/&#10;~/devel/MidiHackDay/midihackday/oscpack"
+                       isDebug="0" optimisation="3" targetName="OSCMidiModulator" headerPath="~/devel/MidiHackDay/midihackday/oscpack"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video" path="../../juce"/>
+        <MODULEPATH id="juce_opengl" path="../../juce"/>
+        <MODULEPATH id="juce_gui_extra" path="../../juce"/>
+        <MODULEPATH id="juce_gui_basics" path="../../juce"/>
+        <MODULEPATH id="juce_graphics" path="../../juce"/>
+        <MODULEPATH id="juce_events" path="../../juce"/>
+        <MODULEPATH id="juce_data_structures" path="../../juce"/>
+        <MODULEPATH id="juce_cryptography" path="../../juce"/>
+        <MODULEPATH id="juce_core" path="../../juce"/>
+        <MODULEPATH id="juce_audio_processors" path="../../juce"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../juce"/>
+        <MODULEPATH id="juce_audio_formats" path="../../juce"/>
+        <MODULEPATH id="juce_audio_devices" path="../../juce"/>
+        <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
   </EXPORTFORMATS>
   <MODULES>
     <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
