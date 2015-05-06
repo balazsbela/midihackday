@@ -138,6 +138,16 @@ void OscmidiModulatorAudioProcessor::releaseResources()
 
 void OscmidiModulatorAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
+
+    while (m_eventQueue && !m_eventQueue->empty())
+    {
+        SensorEvent event("", 0.0f, 0.0f, 0.0f);
+        m_eventQueue->pop(event);
+
+        std::cout << event.x() << std::endl;
+    }
+
+
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).

@@ -15,6 +15,12 @@
 #include "PluginProcessor.h"
 
 #include "ReceiveOSC.h"
+#include "SensorEvent.h"
+
+
+#include <queue>
+#include <memory>
+
 
 //==============================================================================
 /**
@@ -34,10 +40,10 @@ private:
     // access the processor object that created it.
     OscmidiModulatorAudioProcessor& processor;
 
+    ReceiveOSC m_receiveOSC;
 
-	TextButton fireUpOSC;
-	ReceiveOSC receiveOSC;
-    
+    boost::lockfree::queue<SensorEvent> m_eventQueue;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscmidiModulatorAudioProcessorEditor)
 };
 

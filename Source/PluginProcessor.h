@@ -13,6 +13,11 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+#include "SensorEvent.h"
+#include <memory>
+
+#include <boost/lockfree/queue.hpp>
+
 
 //==============================================================================
 /**
@@ -65,7 +70,15 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    void setEventQueue(boost::lockfree::queue<SensorEvent>& eventQueue)
+    {
+        m_eventQueue = &eventQueue;
+    }
+
 private:
+
+    boost::lockfree::queue<SensorEvent>* m_eventQueue;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscmidiModulatorAudioProcessor)
 };

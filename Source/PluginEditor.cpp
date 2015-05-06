@@ -14,14 +14,19 @@
 
 //==============================================================================
 OscmidiModulatorAudioProcessorEditor::OscmidiModulatorAudioProcessorEditor (OscmidiModulatorAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), fireUpOSC ("Fire Up OSC")
+    : AudioProcessorEditor (&p),
+      processor (p),
+      m_eventQueue(0)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
-    
+
+    m_receiveOSC.setEventQueue(m_eventQueue);
+    processor.setEventQueue(m_eventQueue);
+
     // start osc thread
-	receiveOSC.startThread();
+    m_receiveOSC.startThread();
 }
 
 OscmidiModulatorAudioProcessorEditor::~OscmidiModulatorAudioProcessorEditor()
@@ -33,17 +38,11 @@ void OscmidiModulatorAudioProcessorEditor::paint (Graphics& g)
 {
     g.fillAll (Colours::white);
 
-    g.setColour (Colours::black);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
-    
-    addAndMakeVisible(&fireUpOSC);    
 }
 
 void OscmidiModulatorAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    
-    fireUpOSC.setBoundsRelative (0.05, 0.05, 0.90, 0.25);
+
 }

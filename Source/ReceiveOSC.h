@@ -21,39 +21,51 @@
 #include "ip/UdpSocket.h"
 #include "ip/PacketListener.h"
 
+#include "SensorEvent.h"
+
+#include <memory>
+
+#include <boost/lockfree/queue.hpp>
 
 #define PORT 7000
 class ReceiveOSC : public osc::OscPacketListener,
-	public Thread
+    public Thread
 {
 public:
-	// Constructor
+    // Constructor
     ReceiveOSC();//, MainContentComponent* const owner); //from mlrVSTAudioProcessor * const owner);
-	~ReceiveOSC()
+    ~ReceiveOSC()
     {
         // stop the OSC Listener thread running
         s.AsynchronousBreak();
-        
+
         // allow the thread 2 seconds to stop cleanly - should be plenty of time.
         stopThread(2000);
     }
 
-	// Start the oscpack OSC Listener Thread
+    // Start the oscpack OSC Listener Thread
     // NOTE: s.Run() won't return unless we force it to with
     // s.AsynchronousBreak() as is done in the destructor
     void run()
     {
-		DBG("calling run");
+        DBG("calling run");
         s.Run();
     }
-	
+
+    void setEventQueue(boost::lockfree::queue<SensorEvent>& eventQueue)
+    {
+        m_eventQueue = &eventQueue;
+    }
+
 private:
-	int incomingPort;
-	UdpListeningReceiveSocket s;
+    int incomingPort;
+    UdpListeningReceiveSocket s;
+
+    boost::lockfree::queue<SensorEvent>* m_eventQueue;
 
 protected:
-	virtual void ProcessMessage(const osc::ReceivedMessage& m,
-		const IpEndpointName& remoteEndpoint) override;
+    virtual void ProcessMessage(const osc::ReceivedMessage& m,
+        const IpEndpointName& remoteEndpoint) override;
 
 };
 #endif  // RECEIVEOSC_H_INCLUDED

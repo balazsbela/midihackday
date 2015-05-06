@@ -6,12 +6,13 @@
               pluginName="OSCMidiModulator" pluginDesc="OSCMidiModulator" pluginManufacturer="yourcompany"
               pluginManufacturerCode="Manu" pluginCode="Mtsj" pluginChannelConfigs="{1, 1}, {2, 2}"
               pluginIsSynth="0" pluginWantsMidiIn="0" pluginProducesMidiOut="1"
-              pluginSilenceInIsSilenceOut="1" pluginEditorRequiresKeys="0"
+              pluginSilenceInIsSilenceOut="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="OSCMidiModulatorAU" pluginRTASCategory=""
               aaxIdentifier="com.yourcompany.OSCMidiModulator" pluginAAXCategory="AAX_ePlugInCategory_Dynamics"
               jucerVersion="3.1.1">
   <MAINGROUP id="XhiTXj" name="OSCMidiModulator">
     <GROUP id="{862AB848-95B6-E558-E309-1289244885F5}" name="Source">
+      <FILE id="s3xPBE" name="SensorEvent.h" compile="0" resource="0" file="Source/SensorEvent.h"/>
       <FILE id="LJFhkm" name="ReceiveOSC.cpp" compile="1" resource="0" file="Source/ReceiveOSC.cpp"/>
       <FILE id="jofs6A" name="ReceiveOSC.h" compile="0" resource="0" file="Source/ReceiveOSC.h"/>
       <FILE id="YQ9sZM" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -52,13 +53,13 @@
         <MODULEPATH id="juce_audio_plugin_client" path="../JUCE/modules"/>
       </MODULEPATHS>
     </VS2013>
-    <LINUX_MAKE targetFolder="Builds/Linux" externalLibraries="oscpack" vstFolder="~/SDKs/vstsdk2.4"
-                extraCompilerFlags="-fPIC">
+    <LINUX_MAKE targetFolder="Builds/Linux" externalLibraries="oscpack&#10;boost_atomic"
+                vstFolder="~/SDKs/vstsdk2.4" extraCompilerFlags="-fPIC">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/&#10;/home/balazsbela/devel/MidiHackDay/midihackday/oscpack"
-                       isDebug="1" optimisation="1" targetName="OSCMidiModulator" headerPath="/home/balazsbela/devel/MidiHackDay/midihackday/oscpack"/>
-        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/&#10;/home/balazsbela/devel/MidiHackDay/midihackday/oscpack"
-                       isDebug="0" optimisation="3" targetName="OSCMidiModulator" headerPath="/home/balazsbela/devel/MidiHackDay/midihackday/oscpack"/>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/&#10;/home/balazsbela/devel/MidiHackDay/midihackday/oscpack&#10;/usr/lib/"
+                       isDebug="1" optimisation="1" targetName="OSCMidiModulator" headerPath="/home/balazsbela/devel/MidiHackDay/midihackday/oscpack&#10;/usr/include"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/&#10;/home/balazsbela/devel/MidiHackDay/midihackday/oscpack&#10;/usr/lib/"
+                       isDebug="0" optimisation="3" targetName="OSCMidiModulator" headerPath="/home/balazsbela/devel/MidiHackDay/midihackday/oscpack&#10;/usr/include"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_video" path="../../juce-git/JUCE/modules"/>

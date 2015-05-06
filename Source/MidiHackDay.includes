@@ -1,2 +1,5 @@
 .
 ../Builds/Linux
+../oscpack/osc
+../oscpack
+../oscpack/ip/win32
