@@ -139,12 +139,56 @@ void OscmidiModulatorAudioProcessor::releaseResources()
 void OscmidiModulatorAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
 
+    // Process incomming midi:
+
+    int time;
+    MidiMessage m;
+
+    for (MidiBuffer::Iterator i (midiMessages); i.getNextEvent(m, time);)
+    {
+        std::cout <<  time << std::endl;
+    }
+
+    MidiBuffer processedMidi;
+    MidiMessageSequence sequence;
+
+
     while (m_eventQueue && !m_eventQueue->empty())
     {
         SensorEvent event("", 0.0f, 0.0f, 0.0f);
         m_eventQueue->pop(event);
 
         std::cout << event.x() << std::endl;
+
+
+        auto baseTime = Time::getMillisecondCounter() + 1000;
+
+        auto mOn = MidiMessage::noteOn(1, 64, 70.0f);
+        mOn.setTimeStamp(baseTime);
+
+        auto mOff = MidiMessage::noteOff(1, 64);
+        mOff.setChannel(1);
+        mOff.setTimeStamp(baseTime + 3000);
+        mOff.setNoteNumber(64);
+
+        sequence.addEvent(mOn);
+        sequence.addEvent(mOff);
+
+
+        for(int i = 0; i < sequence.getNumEvents(); i++)
+        {
+            const auto eventHolder = sequence.getEventPointer(i);
+
+            //const auto currentTick = Time::getHighResolutionTicks();
+            // Convert tick to sample
+
+
+            const auto currentSample = i * 2 * getSampleRate();
+
+
+            processedMidi.addEvent(eventHolder->message, currentSample);
+
+        }
     }
 
 
@@ -165,6 +209,10 @@ void OscmidiModulatorAudioProcessor::processBlock (AudioSampleBuffer& buffer, Mi
 
         // ..do something to the data...
     }
+
+
+
+    midiMessages.swapWith (processedMidi);
 }
 
 //==============================================================================
