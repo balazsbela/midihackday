@@ -11,6 +11,9 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#define CC_DELAY 10
+#define CC_MOD 20
+
 
 //==============================================================================
 XyprocessorAudioProcessor::XyprocessorAudioProcessor()
@@ -151,16 +154,22 @@ void XyprocessorAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
     //m_pPitchShifter->process(buffer, midiMessages);
     
     processOSCData(midiMessages);
-    
     m_pFrequencyShifter->process(buffer, midiMessages);
     
     // In case we have more outputs than inputs, we'll clear any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
-    for (int i = 1; i < getNumOutputChannels(); ++i)
-    {
-        buffer.clear (i, 0, buffer.getNumSamples());
-    }
+    
+//    float* pMasterCopyBuffer = buffer.getWritePointer(0);
+//    for (int i = 1; i < getNumOutputChannels(); ++i)
+//    {
+//        float* pReplicaBuffer = buffer.getWritePointer(i);
+//        
+//        for (size_t nIndex; nIndex < buffer.getNumSamples(); ++nIndex)
+//        {
+//            pReplicaBuffer[nIndex] = pMasterCopyBuffer[nIndex];
+//        }
+//    }
 }
 
 //==============================================================================
@@ -192,12 +201,7 @@ void XyprocessorAudioProcessor::setStateInformation (const void* data, int sizeI
 
 void XyprocessorAudioProcessor::processOSCData(MidiBuffer& midiMessages)
 {
-    MidiMessage m;
-    
-    MidiBuffer output;
-    
-    //MidiMessageSequence sequence;
-    
+    midiMessages.clear();
     
     while (m_eventQueue && !m_eventQueue->empty())
     {
@@ -209,15 +213,10 @@ void XyprocessorAudioProcessor::processOSCData(MidiBuffer& midiMessages)
         mX = mX < 0 ? 0 : mX;
         mX = mX < 16300 ? mX : 16300;
         
-        MidiMessage aPitchMidiEvent = MidiMessage::pitchWheel(1, mX);
-        
-        output.addEvent(aPitchMidiEvent, 0);
-        output.addEvent(MidiMessage::noteOn(1, 65, 100.0f), (int)(midiMessages.getNumEvents() / 2));
-        
+        MidiMessage aControllerEvent = MidiMessage::controllerEvent (1, CC_FREQ_SHIFT, mX);
+
+        midiMessages.addEvent(aControllerEvent, 0);
     }
-    
-    midiMessages.clear();
-    midiMessages = output;
 }
 
 //==============================================================================

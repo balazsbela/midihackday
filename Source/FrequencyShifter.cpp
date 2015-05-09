@@ -49,7 +49,14 @@ FrequencyShifter::~FrequencyShifter()
 
 void FrequencyShifter::process(AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    
+    processAudio(buffer);
+    processEvents(midiMessages);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+void FrequencyShifter::processAudio(AudioSampleBuffer& buffer)
+{
     size_t nNumSamples = buffer.getNumSamples();
     float* pAudioBuffer = buffer.getWritePointer(0);
     
@@ -96,6 +103,27 @@ void FrequencyShifter::process(AudioSampleBuffer& buffer, MidiBuffer& midiMessag
                 m_aOutputBuffer.write((m_aTimeDomainBuffer[nCircularShiftedIndex].real()
                     / m_nWindowSize));
             }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+void FrequencyShifter::processEvents(MidiBuffer& midiMessages)
+{
+    MidiMessage aMessage;
+    int nSampleIndex = 0;
+
+    while (MidiBuffer::Iterator(midiMessages).getNextEvent(aMessage, nSampleIndex))
+    {
+        ++nSampleIndex;
+        
+        if (aMessage.isController() && aMessage.getControllerNumber() == CC_FREQ_SHIFT)
+        {
+            int nValue = aMessage.getControllerValue();
+            int nSampleShift = (nValue - 64) / 128 * m_nWindowSize / 2; // Offer half range
+                
+            setSampleShift(nSampleShift);
         }
     }
 }

@@ -84,6 +84,7 @@ private:
     
     void processOSCData(MidiBuffer& midiMessages);
     
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (XyprocessorAudioProcessor)
 };

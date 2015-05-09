@@ -25,6 +25,8 @@
 
 #include "fftw3.h"
 
+#define CC_FREQ_SHIFT 20
+
 class FrequencyShifter : public Processor
 {
 public:
@@ -62,6 +64,8 @@ private:
     void setupFftw();
     size_t circularShiftIndex(size_t nIndex);
     
+    void processAudio(AudioSampleBuffer& buffer);
+    void processEvents(MidiBuffer& midiMessages);
     void shiftFrequencies();
 
 };

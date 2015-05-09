@@ -37,25 +37,29 @@ void ReceiveOSC::ProcessMessage(const osc::ReceivedMessage& m,
     }
     else if (std::strcmp(path, "/ori") == 0 )
     {
-        osc::int32 nx,ny,nz;
-        args >> nx >> ny >> nz >> osc::EndMessage;
+        //osc::int32 nx,ny,nz;
+        //args >> nx >> ny >> nz >> osc::EndMessage;
         //outfile << nx << " " << ny << " " << nz << std::endl;
 
-        x = nx;
-        y = ny;
-        z = nz;
+        //x = nx;
+        //y = ny;
+        //z = nz;
+        
+        return;
     }
     else if (std::strcmp(path, "/touch") == 0)
     {
-        args >> x >> y >> osc::EndMessage;
+//        args >> x >> y >> osc::EndMessage;
         //outfile << x << " " << y << std::endl;
+        
+        return;
     }
 
     //outfile.close();
 
     SensorEvent event(path, x, y, z);
 
-    if (m_eventQueue)
+    if (m_eventQueue->empty())
     {
         m_eventQueue->push(event);
     }
