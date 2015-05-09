@@ -20,9 +20,9 @@ ReceiveOSC::ReceiveOSC():
 void ReceiveOSC::ProcessMessage(const osc::ReceivedMessage& m,
     const IpEndpointName& /*remoteEndpoint*/)
 {
-    std::ofstream outfile;
+  /*  std::ofstream outfile;
     outfile.open("output.txt",  std::fstream::in | std::fstream::out | std::fstream::app);
-    outfile << m.AddressPattern() << std::endl;
+    outfile << m.AddressPattern() << std::endl;*/
 
     auto args = m.ArgumentStream();
     auto path = m.AddressPattern();
@@ -32,13 +32,13 @@ void ReceiveOSC::ProcessMessage(const osc::ReceivedMessage& m,
     if (std::strcmp(path, "/acc") == 0 )
     {
         args >> x >> y >> z >> osc::EndMessage;
-        outfile << x << " " << y << " " << z << std::endl;
+        //outfile << x << " " << y << " " << z << std::endl;
     }
     else if (std::strcmp(path, "/ori") == 0 )
     {
         osc::int32 nx,ny,nz;
         args >> nx >> ny >> nz >> osc::EndMessage;
-        outfile << nx << " " << ny << " " << nz << std::endl;
+        //outfile << nx << " " << ny << " " << nz << std::endl;
 
         x = nx;
         y = ny;
@@ -47,10 +47,10 @@ void ReceiveOSC::ProcessMessage(const osc::ReceivedMessage& m,
     else if (std::strcmp(path, "/touch") == 0)
     {
         args >> x >> y >> osc::EndMessage;
-        outfile << x << " " << y << std::endl;
+        //outfile << x << " " << y << std::endl;
     }
 
-    outfile.close();
+    //outfile.close();
 
     SensorEvent event(path, x, y, z);
 
