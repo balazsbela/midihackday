@@ -155,6 +155,7 @@ class UdpListeningReceiveSocket : public UdpSocket{
     SocketReceiveMultiplexer mux_;
     PacketListener *listener_;
 public:
+    
 	UdpListeningReceiveSocket( const IpEndpointName& localEndpoint, PacketListener *listener )
         : listener_( listener )
     {

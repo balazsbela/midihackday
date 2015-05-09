@@ -9,11 +9,12 @@
 
 ReceiveOSC::ReceiveOSC():
     Thread("OscListener Thread"),
-    incomingPort(PORT),
-    s(IpEndpointName(IpEndpointName::ANY_ADDRESS, incomingPort),
-    this)
+    incomingPort(12001),
+    m_ipEndpoint(IpEndpointName::ANY_ADDRESS, incomingPort),
+    s(m_ipEndpoint, this)
 {
-
+    std::cout << m_ipEndpoint.port << std::endl;
+    
     DBG("Now called the Constructor");
 }
 

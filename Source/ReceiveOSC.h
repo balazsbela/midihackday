@@ -27,7 +27,7 @@
 
 #include <boost/lockfree/queue.hpp>
 
-#define PORT 7000
+#define PORT 8338
 class ReceiveOSC : public osc::OscPacketListener,
     public Thread
 {
@@ -59,10 +59,11 @@ public:
 
 private:
     int incomingPort;
+    IpEndpointName m_ipEndpoint;
     UdpListeningReceiveSocket s;
 
     boost::lockfree::queue<SensorEvent>* m_eventQueue;
-
+    
 protected:
     virtual void ProcessMessage(const osc::ReceivedMessage& m,
         const IpEndpointName& remoteEndpoint) override;
