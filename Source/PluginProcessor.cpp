@@ -142,6 +142,8 @@ void OscmidiModulatorAudioProcessor::processBlock (AudioSampleBuffer& buffer, Mi
     // Process incoming midi:
 
     int sample;
+    
+    /////
     MidiMessage m;
 
 	MidiBuffer output;
@@ -168,6 +170,7 @@ void OscmidiModulatorAudioProcessor::processBlock (AudioSampleBuffer& buffer, Mi
 
 	midiMessages.clear();
 	midiMessages = output;
+    //////
    
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
