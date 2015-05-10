@@ -14,7 +14,6 @@
 //==============================================================================
 XyprocessorAudioProcessorEditor::XyprocessorAudioProcessorEditor (XyprocessorAudioProcessor* ownerFilter)
     : AudioProcessorEditor (ownerFilter)
-    , m_eventQueue(0)
 {
     // This is where our plugin's editor size is set.
     setSize (400, 300);

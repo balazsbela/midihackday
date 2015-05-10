@@ -14,10 +14,11 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PitchShifter.h"
 #include "FrequencyShifter.h"
+#include "SampleDelay.h"
 #include "SensorEvent.h"
 #include <memory>
 
-#include <boost/lockfree/queue.hpp>
+#include <queue>
 
 //==============================================================================
 /**
@@ -71,7 +72,7 @@ public:
     void getStateInformation (MemoryBlock& destData);
     void setStateInformation (const void* data, int sizeInBytes);
 
-    void setEventQueue(boost::lockfree::queue<SensorEvent>& eventQueue)
+    void setEventQueue(std::queue<SensorEvent>& eventQueue)
     {
         m_eventQueue = &eventQueue;
     }
@@ -79,8 +80,9 @@ public:
 private:
     std::unique_ptr<PitchShifter> m_pPitchShifter;
     std::unique_ptr<FrequencyShifter> m_pFrequencyShifter;
+    std::unique_ptr<SampleDelay> m_pSampleDelay;
     
-    boost::lockfree::queue<SensorEvent>* m_eventQueue;
+    std::queue<SensorEvent>* m_eventQueue;
     
     void processOSCData(MidiBuffer& midiMessages);
     

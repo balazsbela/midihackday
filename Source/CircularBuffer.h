@@ -9,6 +9,7 @@
 #ifndef __XYProcessor__CircularBuffer__
 #define __XYProcessor__CircularBuffer__
 #include <vector>
+#include <iostream>
 
 template <class T>
 class CircularBuffer

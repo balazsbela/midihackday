@@ -11,14 +11,15 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-#define CC_DELAY 10
 #define CC_MOD 20
+#define CC_DELAY 21
 
 
 //==============================================================================
 XyprocessorAudioProcessor::XyprocessorAudioProcessor()
 :   m_pPitchShifter(new PitchShifter)
 ,   m_pFrequencyShifter(new FrequencyShifter)
+,   m_pSampleDelay(new SampleDelay)
 {
 }
 
@@ -144,32 +145,25 @@ void XyprocessorAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
 {
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
-//    for (int channel = 0; channel < getNumInputChannels(); ++channel)
-//    {
-//        float* channelData = buffer.getWritePointer (channel);
-//        
-//        // ..do something to the data...
-//    }
-
-    //m_pPitchShifter->process(buffer, midiMessages);
     
     processOSCData(midiMessages);
+    m_pSampleDelay->process(buffer, midiMessages);
     m_pFrequencyShifter->process(buffer, midiMessages);
     
     // In case we have more outputs than inputs, we'll clear any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
     
-//    float* pMasterCopyBuffer = buffer.getWritePointer(0);
-//    for (int i = 1; i < getNumOutputChannels(); ++i)
-//    {
-//        float* pReplicaBuffer = buffer.getWritePointer(i);
-//        
-//        for (size_t nIndex; nIndex < buffer.getNumSamples(); ++nIndex)
-//        {
-//            pReplicaBuffer[nIndex] = pMasterCopyBuffer[nIndex];
-//        }
-//    }
+    float* pMasterCopyBuffer = buffer.getWritePointer(0);
+    for (int i = 1; i < getNumOutputChannels(); ++i)
+    {
+        float* pReplicaBuffer = buffer.getWritePointer(i);
+        
+        for (size_t nIndex = 0; nIndex < buffer.getNumSamples(); ++nIndex)
+        {
+            pReplicaBuffer[nIndex] = pMasterCopyBuffer[nIndex];
+        }
+    }
 }
 
 //==============================================================================
@@ -201,20 +195,16 @@ void XyprocessorAudioProcessor::setStateInformation (const void* data, int sizeI
 
 void XyprocessorAudioProcessor::processOSCData(MidiBuffer& midiMessages)
 {
-    midiMessages.clear();
-    
-    while (m_eventQueue && !m_eventQueue->empty())
+    if (m_eventQueue && !m_eventQueue->empty())
     {
-        SensorEvent event("", 0.0f, 0.0f, 0.0f);
-        m_eventQueue->pop(event);
+        SensorEvent event = m_eventQueue->front();
+        m_eventQueue->pop();
         
         int mX = event.x();
         
-        mX = mX < 0 ? 0 : mX;
-        mX = mX < 16300 ? mX : 16300;
+        mX = ((mX + 10.0) / 20.0) * 127;
         
         MidiMessage aControllerEvent = MidiMessage::controllerEvent (1, CC_FREQ_SHIFT, mX);
-
         midiMessages.addEvent(aControllerEvent, 0);
     }
 }

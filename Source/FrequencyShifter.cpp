@@ -14,7 +14,7 @@ FrequencyShifter::FrequencyShifter()
 ,   m_nSampleShift(0)
 ,   m_aInputBuffer(m_nWindowSize)
 ,   m_aOutputBuffer(m_nWindowSize)
-,   m_aPrevBinValues(m_nWindowSize/2, std::complex<float>(0.0, 0.0))
+,   m_aPrevBinValues(m_nWindowSize/2 + 1, std::complex<float>(0.0, 0.0))
 ,   m_aHanningWindow(0.0, m_nWindowSize)
 ,   m_nSamplesSinceLastProcess(0)
 ,   m_aTimeDomainBuffer(std::complex<float>(), m_nWindowSize)
@@ -114,14 +114,15 @@ void FrequencyShifter::processEvents(MidiBuffer& midiMessages)
     MidiMessage aMessage;
     int nSampleIndex = 0;
 
-    while (MidiBuffer::Iterator(midiMessages).getNextEvent(aMessage, nSampleIndex))
+    MidiBuffer::Iterator it(midiMessages);
+    while (it.getNextEvent(aMessage, nSampleIndex))
     {
         ++nSampleIndex;
         
         if (aMessage.isController() && aMessage.getControllerNumber() == CC_FREQ_SHIFT)
         {
             int nValue = aMessage.getControllerValue();
-            int nSampleShift = (nValue - 64) / 128 * m_nWindowSize / 2; // Offer half range
+            int nSampleShift = (nValue - 64.0) / 64.0 * 4.0; // Offer half range
                 
             setSampleShift(nSampleShift);
         }

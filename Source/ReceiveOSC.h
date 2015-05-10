@@ -25,7 +25,7 @@
 
 #include <memory>
 
-#include <boost/lockfree/queue.hpp>
+#include <queue>
 
 #define PORT 8338
 class ReceiveOSC : public osc::OscPacketListener,
@@ -52,7 +52,7 @@ public:
         s.Run();
     }
 
-    void setEventQueue(boost::lockfree::queue<SensorEvent>& eventQueue)
+    void setEventQueue(std::queue<SensorEvent>& eventQueue)
     {
         m_eventQueue = &eventQueue;
     }
@@ -62,7 +62,7 @@ private:
     IpEndpointName m_ipEndpoint;
     UdpListeningReceiveSocket s;
 
-    boost::lockfree::queue<SensorEvent>* m_eventQueue;
+    std::queue<SensorEvent>* m_eventQueue;
     
 protected:
     virtual void ProcessMessage(const osc::ReceivedMessage& m,

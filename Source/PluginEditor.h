@@ -14,7 +14,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "ReceiveOSC.h"
-
+#include <queue>
 
 
 //==============================================================================
@@ -28,7 +28,7 @@ public:
     
     ReceiveOSC m_receiveOSC;
     
-    boost::lockfree::queue<SensorEvent> m_eventQueue;
+    std::queue<SensorEvent> m_eventQueue;
     
     //==============================================================================
     // This is just a standard Juce paint method...
