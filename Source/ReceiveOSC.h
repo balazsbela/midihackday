@@ -27,6 +27,8 @@
 
 #include <queue>
 
+#include <boost/shared_ptr.hpp>
+
 #define PORT 8338
 class ReceiveOSC : public osc::OscPacketListener,
     public Thread
@@ -52,9 +54,9 @@ public:
         s.Run();
     }
 
-    void setEventQueue(std::queue<SensorEvent>& eventQueue)
+    void setEventQueue(boost::shared_ptr<std::queue<SensorEvent>> eventQueue)
     {
-        m_eventQueue = &eventQueue;
+        m_eventQueue = eventQueue;
     }
 
 private:
@@ -62,7 +64,7 @@ private:
     IpEndpointName m_ipEndpoint;
     UdpListeningReceiveSocket s;
 
-    std::queue<SensorEvent>* m_eventQueue;
+    boost::shared_ptr<std::queue<SensorEvent>> m_eventQueue;
     
 protected:
     virtual void ProcessMessage(const osc::ReceivedMessage& m,

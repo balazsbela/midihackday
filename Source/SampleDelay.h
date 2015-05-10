@@ -12,11 +12,15 @@
 #include "CircularBuffer.h"
 #include "Processor.h"
 
+#define CC_DELAY 21
+
 class SampleDelay : public Processor
 {
 public:
     SampleDelay();
     void process(AudioSampleBuffer& buffer, MidiBuffer& midiMessages) override;
+    
+    void setFeedback(const float fFeedback) { m_fFeedback = fFeedback; };
     
 private:
     CircularBuffer<float> m_aDelayedSamples;

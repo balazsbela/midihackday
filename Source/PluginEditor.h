@@ -15,6 +15,7 @@
 #include "PluginProcessor.h"
 #include "ReceiveOSC.h"
 #include <queue>
+#include <boost/shared_ptr.hpp>
 
 
 //==============================================================================
@@ -28,7 +29,7 @@ public:
     
     ReceiveOSC m_receiveOSC;
     
-    std::queue<SensorEvent> m_eventQueue;
+    boost::shared_ptr<std::queue<SensorEvent>> m_eventQueue;
     
     //==============================================================================
     // This is just a standard Juce paint method...

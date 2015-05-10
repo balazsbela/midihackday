@@ -16,9 +16,11 @@
 #include "FrequencyShifter.h"
 #include "SampleDelay.h"
 #include "SensorEvent.h"
+#include "Modulator.h"
 #include <memory>
 
 #include <queue>
+#include <boost/smart_ptr.hpp>
 
 //==============================================================================
 /**
@@ -72,17 +74,18 @@ public:
     void getStateInformation (MemoryBlock& destData);
     void setStateInformation (const void* data, int sizeInBytes);
 
-    void setEventQueue(std::queue<SensorEvent>& eventQueue)
+    void setEventQueue(boost::shared_ptr<std::queue<SensorEvent>> eventQueue)
     {
-        m_eventQueue = &eventQueue;
+        m_eventQueue = eventQueue;
     }
     
 private:
     std::unique_ptr<PitchShifter> m_pPitchShifter;
     std::unique_ptr<FrequencyShifter> m_pFrequencyShifter;
     std::unique_ptr<SampleDelay> m_pSampleDelay;
+    std::unique_ptr<Modulator> m_pModulator;
     
-    std::queue<SensorEvent>* m_eventQueue;
+    boost::shared_ptr<std::queue<SensorEvent>> m_eventQueue;
     
     void processOSCData(MidiBuffer& midiMessages);
     

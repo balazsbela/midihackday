@@ -49,8 +49,8 @@ FrequencyShifter::~FrequencyShifter()
 
 void FrequencyShifter::process(AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    processAudio(buffer);
     processEvents(midiMessages);
+    processAudio(buffer);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -93,9 +93,6 @@ void FrequencyShifter::processAudio(AudioSampleBuffer& buffer)
             std::fill(std::begin(m_aTimeDomainBuffer), std::end(m_aTimeDomainBuffer), std::complex<float>(0, 0));
             fftwf_execute(m_aFftBwdPlan);
             
-            // Overlap-add
-            auto aTimeDomainBuffer2 = m_aTimeDomainBuffer;
-            
             for (size_t nIndex = 0; nIndex < m_nWindowSize; ++nIndex)
             {
                 size_t nCircularShiftedIndex = nIndex;
@@ -122,7 +119,7 @@ void FrequencyShifter::processEvents(MidiBuffer& midiMessages)
         if (aMessage.isController() && aMessage.getControllerNumber() == CC_FREQ_SHIFT)
         {
             int nValue = aMessage.getControllerValue();
-            int nSampleShift = (nValue - 64.0) / 64.0 * 4.0; // Offer half range
+            int nSampleShift = fabs((nValue - 64.0)) / 64.0 * 4.0; // Offer half range
                 
             setSampleShift(nSampleShift);
         }

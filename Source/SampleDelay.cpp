@@ -11,8 +11,8 @@
 #include "SampleDelay.h"
 
 SampleDelay::SampleDelay()
-:   m_aDelayedSamples(2048)
-,   m_nDelay(1024)
+:   m_aDelayedSamples(22050)
+,   m_nDelay(22050)
 ,   m_fFeedback(0.5)
 {
     m_aDelayedSamples.setWriteOffset(m_nDelay);
@@ -22,8 +22,8 @@ SampleDelay::SampleDelay()
 
 void SampleDelay::process(juce::AudioSampleBuffer &buffer, juce::MidiBuffer &midiMessages)
 {
-    processAudio(buffer);
     processEvents(midiMessages);
+    processAudio(buffer);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -35,8 +35,8 @@ void SampleDelay::processAudio(juce::AudioSampleBuffer &buffer)
     for (size_t nIndex = 0; nIndex < buffer.getNumSamples(); ++nIndex)
     {
         float fDelaySample = m_aDelayedSamples.read();
+        pAudio[nIndex] = pAudio[nIndex] + fDelaySample * m_fFeedback;
         m_aDelayedSamples.write(pAudio[nIndex]);
-        pAudio[nIndex] = fDelaySample * m_fFeedback;
     }
 }
 
@@ -44,7 +44,22 @@ void SampleDelay::processAudio(juce::AudioSampleBuffer &buffer)
 
 void SampleDelay::processEvents(juce::MidiBuffer &midiMessages)
 {
+    MidiMessage aMessage;
+    int nSampleIndex = 0;
     
+    MidiBuffer::Iterator it(midiMessages);
+    while (it.getNextEvent(aMessage, nSampleIndex))
+    {
+        ++nSampleIndex;
+        
+        if (aMessage.isController() && aMessage.getControllerNumber() == CC_DELAY)
+        {
+            int nValue = aMessage.getControllerValue();
+            float fFeedback = fabs((nValue - 64.0)) / 64.0 * 1.1;
+            
+            setFeedback(fFeedback);
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

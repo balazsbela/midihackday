@@ -32,12 +32,12 @@ public:
 
     float y() const
     {
-        return m_x;
+        return m_y;
     }
 
     float z() const
     {
-        return m_x;
+        return m_z;
     }
 
     bool operator<(const SensorEvent& other)
