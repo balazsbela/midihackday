@@ -55,7 +55,7 @@ void Modulator::processEvents(juce::MidiBuffer &midiMessages)
         if (aMessage.isController() && aMessage.getControllerNumber() == CC_MOD)
         {
             int nValue = aMessage.getControllerValue();
-            float fMix = nValue - 64;
+            float fMix = 64 - nValue;
             fMix = fMix >= 0 ? fMix : 0;
             fMix = fMix / 63 * 0.8;
             

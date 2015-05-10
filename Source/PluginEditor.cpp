@@ -36,7 +36,7 @@ void XyprocessorAudioProcessorEditor::paint (Graphics& g)
     g.fillAll (Colours::white);
     g.setColour (Colours::black);
     g.setFont (15.0f);
-    g.drawFittedText ("Frequency!",
+    g.drawFittedText ("[Insert awesome GUI here]",
                       0, 0, getWidth(), getHeight(),
                       Justification::centred, 1);
 }
