@@ -11,6 +11,15 @@
               aaxIdentifier="com.yourcompany.OSCMidiModulator" pluginAAXCategory="AAX_ePlugInCategory_Dynamics"
               jucerVersion="3.1.1">
   <MAINGROUP id="XhiTXj" name="OSCMidiModulator">
+    <FILE id="rhemTL" name="CircularBuffer.h" compile="0" resource="0"
+          file="Source/CircularBuffer.h"/>
+    <FILE id="H0xUTg" name="FrequencyShifter.cpp" compile="1" resource="0"
+          file="Source/FrequencyShifter.cpp"/>
+    <FILE id="bQwd6c" name="FrequencyShifter.h" compile="0" resource="0"
+          file="Source/FrequencyShifter.h"/>
+    <FILE id="jyZSpC" name="PitchShifter.cpp" compile="1" resource="0"
+          file="Source/PitchShifter.cpp"/>
+    <FILE id="fHPxAm" name="PitchShifter.h" compile="0" resource="0" file="Source/PitchShifter.h"/>
     <GROUP id="{862AB848-95B6-E558-E309-1289244885F5}" name="Source">
       <FILE id="s3xPBE" name="SensorEvent.h" compile="0" resource="0" file="Source/SensorEvent.h"/>
       <FILE id="LJFhkm" name="ReceiveOSC.cpp" compile="1" resource="0" file="Source/ReceiveOSC.cpp"/>
@@ -23,6 +32,10 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="c0oDnv" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
+    <FILE id="UY3fsi" name="Processor.cpp" compile="1" resource="0" file="Source/Processor.cpp"/>
+    <FILE id="bpLgcb" name="Processor.h" compile="0" resource="0" file="Source/Processor.h"/>
+    <FILE id="Ak2qzA" name="SampleDelay.cpp" compile="1" resource="0" file="Source/SampleDelay.cpp"/>
+    <FILE id="eDHnfj" name="SampleDelay.h" compile="0" resource="0" file="Source/SampleDelay.h"/>
   </MAINGROUP>
   <EXPORTFORMATS>
     <VS2013 targetFolder="Builds/VisualStudio2013" vstFolder="H:\SDKs\vstsdk2.4"
@@ -53,7 +66,7 @@
         <MODULEPATH id="juce_audio_plugin_client" path="../JUCE/modules"/>
       </MODULEPATHS>
     </VS2013>
-    <LINUX_MAKE targetFolder="Builds/Linux" externalLibraries="oscpack&#10;boost_atomic"
+    <LINUX_MAKE targetFolder="Builds/Linux" externalLibraries="oscpack&#10;boost_atomic&#10;fftw3f"
                 vstFolder="~/SDKs/vstsdk2.4" extraCompilerFlags="-fPIC">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/&#10;/home/balazsbela/devel/MidiHackDay/midihackday/oscpack&#10;/usr/lib/"

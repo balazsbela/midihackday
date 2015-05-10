@@ -21,7 +21,7 @@ ifeq ($(CONFIG),Debug)
   CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "DEBUG=1" -D "_DEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../JuceLibraryCode/modules -I /home/balazsbela/devel/MidiHackDay/midihackday/oscpack
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -g -ggdb -fPIC -O0 -fPIC
   CXXFLAGS += $(CFLAGS)
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -L/usr/X11R6/lib/ -L/home/balazsbela/devel/MidiHackDay/midihackday/oscpack -L/usr/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -loscpack -lboost_atomic 
+  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -L/usr/X11R6/lib/ -L/home/balazsbela/devel/MidiHackDay/midihackday/oscpack -L/usr/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -loscpack -lboost_atomic -lfftw3f 
 
   TARGET := OSCMidiModulator.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
@@ -41,7 +41,7 @@ ifeq ($(CONFIG),Release)
   CPPFLAGS := $(DEPFLAGS) -std=c++11 -D "LINUX=1" -D "NDEBUG=1" -D "JUCER_LINUX_MAKE_7346DA2A=1" -D "JUCE_APP_VERSION=1.0.0" -D "JUCE_APP_VERSION_HEX=0x10000" -I /usr/include -I /usr/include/freetype2 -I ~/SDKs/vstsdk2.4 -I ../../JuceLibraryCode -I ../../JuceLibraryCode/modules -I /home/balazsbela/devel/MidiHackDay/midihackday/oscpack
   CFLAGS += $(CPPFLAGS) $(TARGET_ARCH) -fPIC -O3 -fPIC
   CXXFLAGS += $(CFLAGS)
-  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -fvisibility=hidden -L/usr/X11R6/lib/ -L/home/balazsbela/devel/MidiHackDay/midihackday/oscpack -L/usr/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -loscpack -lboost_atomic 
+  LDFLAGS += $(TARGET_ARCH) -L$(BINDIR) -L$(LIBDIR) -shared -fvisibility=hidden -L/usr/X11R6/lib/ -L/home/balazsbela/devel/MidiHackDay/midihackday/oscpack -L/usr/lib/ -lGL -lX11 -lXext -lXinerama -lasound -ldl -lfreetype -lpthread -lrt -loscpack -lboost_atomic -lfftw3f 
 
   TARGET := OSCMidiModulator.so
   BLDCMD = $(CXX) -o $(OUTDIR)/$(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(TARGET_ARCH)
@@ -49,9 +49,13 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/FrequencyShifter_b6df08bc.o \
+  $(OBJDIR)/PitchShifter_3234fe58.o \
   $(OBJDIR)/ReceiveOSC_86f958a5.o \
   $(OBJDIR)/PluginProcessor_a059e380.o \
   $(OBJDIR)/PluginEditor_94d4fb09.o \
+  $(OBJDIR)/Processor_85e48f3.o \
+  $(OBJDIR)/SampleDelay_886143da.o \
   $(OBJDIR)/juce_audio_basics_2442e4ea.o \
   $(OBJDIR)/juce_audio_devices_a4c8a728.o \
   $(OBJDIR)/juce_audio_formats_d349f0c8.o \
@@ -86,6 +90,16 @@ strip:
 	@echo Stripping OSCMidiModulator
 	-@strip --strip-unneeded $(OUTDIR)/$(TARGET)
 
+$(OBJDIR)/FrequencyShifter_b6df08bc.o: ../../Source/FrequencyShifter.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling FrequencyShifter.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/PitchShifter_3234fe58.o: ../../Source/PitchShifter.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling PitchShifter.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
 $(OBJDIR)/ReceiveOSC_86f958a5.o: ../../Source/ReceiveOSC.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling ReceiveOSC.cpp"
@@ -99,6 +113,16 @@ $(OBJDIR)/PluginProcessor_a059e380.o: ../../Source/PluginProcessor.cpp
 $(OBJDIR)/PluginEditor_94d4fb09.o: ../../Source/PluginEditor.cpp
 	-@mkdir -p $(OBJDIR)
 	@echo "Compiling PluginEditor.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/Processor_85e48f3.o: ../../Source/Processor.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling Processor.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+
+$(OBJDIR)/SampleDelay_886143da.o: ../../Source/SampleDelay.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SampleDelay.cpp"
 	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/juce_audio_basics_2442e4ea.o: ../../JuceLibraryCode/modules/juce_audio_basics/juce_audio_basics.cpp
