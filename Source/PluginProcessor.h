@@ -74,7 +74,7 @@ public:
     void getStateInformation (MemoryBlock& destData);
     void setStateInformation (const void* data, int sizeInBytes);
 
-    void setEventQueue(boost::shared_ptr<std::queue<SensorEvent>> eventQueue)
+    void setEventQueue(std::shared_ptr<std::queue<SensorEvent>> eventQueue)
     {
         m_eventQueue = eventQueue;
     }
@@ -85,7 +85,7 @@ private:
     std::unique_ptr<SampleDelay> m_pSampleDelay;
     std::unique_ptr<Modulator> m_pModulator;
     
-    boost::shared_ptr<std::queue<SensorEvent>> m_eventQueue;
+    std::shared_ptr<std::queue<SensorEvent>> m_eventQueue;
     
     void processOSCData(MidiBuffer& midiMessages);
     

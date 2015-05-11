@@ -14,7 +14,7 @@
 //==============================================================================
 XyprocessorAudioProcessorEditor::XyprocessorAudioProcessorEditor (XyprocessorAudioProcessor* ownerFilter)
     : AudioProcessorEditor (ownerFilter)
-    , m_eventQueue(boost::make_shared<std::queue<SensorEvent> >())
+    , m_eventQueue(std::make_shared<std::queue<SensorEvent> >())
 {
     // This is where our plugin's editor size is set.
     setSize (400, 300);
